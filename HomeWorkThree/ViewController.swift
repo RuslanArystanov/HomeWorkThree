@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var userNameTexField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     
@@ -21,8 +21,13 @@ class ViewController: UIViewController {
         
         userNameTexField.returnKeyType = .next
         passwordTextField.returnKeyType = .done
+        
         passwordTextField.isSecureTextEntry = true
+        
+        userNameTexField.delegate = self
+        passwordTextField.delegate = self
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let userPage = segue.destination as? UserPajeViewController else {
@@ -40,6 +45,8 @@ class ViewController: UIViewController {
                 "Invalid login or password",
                 "Please, enter correct login and password"
             )
+            
+            passwordTextField.text = nil
         }
     }
     
@@ -62,14 +69,26 @@ class ViewController: UIViewController {
             message: message,
             preferredStyle: .alert
         )
+        
         alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func unwind(for segue: UIStoryboardSegue) {
         userNameTexField.text = nil
         passwordTextField.text = nil
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == userNameTexField {
+            passwordTextField.becomeFirstResponder()
+        } else {
+            logIn()
+        }
+        
+        return true
+    }
+    
     
 }
 
