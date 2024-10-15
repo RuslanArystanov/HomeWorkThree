@@ -21,7 +21,7 @@ class UserPajeViewController: UIViewController {
         gradientLayer.shouldRasterize = true
         viewBackgroundColor.layer.insertSublayer(gradientLayer, at: 0)
         
-        welcomeMessage.text = "Welcome, \(String(userName))"
+        welcomeMessage.text = "Welcome, \(String(userName))!"
     }
     
 }
